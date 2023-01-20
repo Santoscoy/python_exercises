@@ -100,7 +100,3 @@ if __name__ == '__main__': # noqa
     print(format_duration(120))  # should return a srt "2 minutes"
     print(format_duration(3600))  # should return a srt "1 hour"
     print(format_duration(3662))  # should return a srt "1 hour, 1 minute and 2 seconds"
-    print(format_duration(213120391203))
-    print(format_duration(0))
-    print(format_duration(33699661))
-
