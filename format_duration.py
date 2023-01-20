@@ -37,65 +37,44 @@ significant unit of time.
 """
 
 
+def format_duration(seconds):
+    if seconds == 0:
+        return 'now'
+
+    remain_seconds, minutes = time_calculator(seconds, 60)
+    remain_minutes, hours = time_calculator(minutes, 60)
+    remain_hours, days = time_calculator(hours, 24)
+    remain_days, years = time_calculator(days, 365)
+
+    year_msg = str_builder(years, 'year')
+    day_msg = str_builder(remain_days, 'day')
+    hour_msg = str_builder(remain_hours, 'hour')
+    minute_msg = str_builder(remain_minutes, 'minute')
+    second_msg = str_builder(remain_seconds, 'second')
+
+    return msg_builder([year_msg, day_msg, hour_msg, minute_msg, second_msg])
+
+
 def time_calculator(time, divisor):
     int_time = time // divisor
     remain = time % divisor
     return remain, int_time
 
 
-def format_duration(seconds):
-    remain_seconds, minutes = time_calculator(seconds, 60)
-    remain_minutes, hours = time_calculator(minutes, 60)
-    remain_hours, days = time_calculator(hours, 24)
-    remain_days, years = time_calculator(days, 365)
-
-    if years >= 1:
-        if years == 1:
-            year_msg = '1 year'
+def str_builder(time, denomination):
+    if time >= 1:
+        if time == 1:
+            msg = f'1 {denomination}'
         else:
-            year_msg = f'{years} years'
+            msg = f'{time} {denomination}s'
     else:
-        year_msg = ''
+        msg = ''
+    return msg
 
-    if remain_days >= 1:
-        if remain_days == 1:
-            day_msg = '1 day'
-        else:
-            day_msg = f'{remain_days} days'
-    else:
-        day_msg = ''
 
-    if remain_hours >= 1:
-        if remain_hours == 1:
-            hour_msg = '1 hour'
-        else:
-            hour_msg = f'{remain_hours} hours'
-    else:
-        hour_msg = ''
-
-    if remain_minutes >= 1:
-        if remain_minutes == 1:
-            minute_msg = '1 minute'
-        else:
-            minute_msg = f'{remain_minutes} minutes'
-    else:
-        minute_msg = ''
-
-    if remain_seconds >= 1:
-        if remain_seconds == 1:
-            second_msg = '1 second'
-        else:
-            second_msg = f'{remain_seconds} seconds'
-    else:
-        if seconds == 0:
-            second_msg = 'now'
-        else:
-            second_msg = ''
-
-    MSG_LIST = [year_msg, day_msg, hour_msg, minute_msg, second_msg]
-
+def msg_builder(str_list):
     msg_list = []
-    for msg in MSG_LIST:
+    for msg in str_list:
         if msg:
             msg_list.append(msg)
 
@@ -104,21 +83,24 @@ def format_duration(seconds):
         last_msg = msg_list.pop()
         for item in msg_list:
             string = string + item + ', '
+
         string = string[:-2] + f' and {last_msg}'
         return string
 
     elif len(msg_list) == 2:
         return ' and '.join(msg_list)
+
     else:
         return msg_list[0]
 
+
 if __name__ == '__main__': # noqa
-    # print(format_duration(1))  # should return a srt "1 second"
-    # print(format_duration(62))  # should return a srt "1 minute and 2 seconds"
-    # print(format_duration(120))  # should return a srt "2 minutes"
-    # print(format_duration(3600))  # should return a srt "1 hour"
-    # print(format_duration(3662))  # should return a srt "1 hour, 1 minute and 2 seconds"
-    # print(format_duration(213120391203))
-    # print(format_duration(0))
+    print(format_duration(1))  # should return a srt "1 second"
+    print(format_duration(62))  # should return a srt "1 minute and 2 seconds"
+    print(format_duration(120))  # should return a srt "2 minutes"
+    print(format_duration(3600))  # should return a srt "1 hour"
+    print(format_duration(3662))  # should return a srt "1 hour, 1 minute and 2 seconds"
+    print(format_duration(213120391203))
+    print(format_duration(0))
     print(format_duration(33699661))
 
