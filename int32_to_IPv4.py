@@ -25,22 +25,49 @@ EXAMPLES:
 
 def int32_to_ip(int32):
     bin_num = decimal_to_binary(int32)
-    return bin_num
+    byte_list = ip_builder(bin_num)
+    return ipv4_builder(byte_list)
+
+
+def ipv4_builder(byte_list):
+    num_list = []
+    for byte in byte_list:
+        power = len(byte)
+        num = 0
+        for dig in byte:
+            power = power - 1
+            num = num + (int(dig) * (2 ** power))
+        num_list.append(str(num))
+    return '.'.join(num_list)
+
+
+def ip_builder(bin_num):
+    count = 1
+    bin_IP = ''
+    for dig in bin_num:
+        bin_IP = bin_IP + dig
+        if count % 8 == 0 and len(bin_IP) < 32:
+            bin_IP = bin_IP + '.'
+        count += 1
+    return bin_IP.split('.')
 
 
 def decimal_to_binary(decimal):
     bin_num = []
-    while decimal != 0:
-        bin_num.append(str(decimal % 2))
-        decimal = decimal // 2
+    while len(bin_num) < 32:
+        if decimal != 0:
+            bin_num.append(str(decimal % 2))
+            decimal = decimal // 2
+        else:
+            bin_num.append('0')
 
     bin_num.reverse()
+    string = ''.join(bin_num)
+    return string
 
-    return ''.join(bin_num)
 
-
-if __name__ == '__main__': # noqa
-    # print(int32_to_ip(2154959208))  # should return"128.114.17.104"
-    # print(int32_to_ip(0))  # should return"0.0.0.0"
-    # print(int32_to_ip(2149583361))  # should return"128.32.10.1"
+if __name__ == '__main__':  # noqa
+    print(int32_to_ip(2154959208))  # should return"128.114.17.104"
+    print(int32_to_ip(0))  # should return"0.0.0.0"
+    print(int32_to_ip(2149583361))  # should return"128.32.10.1"
     print(int32_to_ip(20))
