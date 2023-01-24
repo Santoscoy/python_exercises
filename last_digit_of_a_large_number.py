@@ -36,6 +36,10 @@ def last_digit(n1, n2):
     return 1 if n2 == 0 else cycle[(n2 % 4) - 1]
 
 
+# alternative solution
+def last_digit_alt(n1, n2):
+    return pow(n1, n2, 10)
+
 
 if __name__ == '__main__':  # noqa
     print(last_digit(4, 1))  # should return 4
