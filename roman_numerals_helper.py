@@ -38,18 +38,52 @@
 # D	500
 # M	1000
 
+def converter_to_roman(char_1: str, char_2=None, char_3=None, val=None):
+    roman_val = ""
+    if val <= 3:
+        for count in range(val):
+            roman_val += char_1
+
+    elif val == 4:
+        roman_val = char_1 + char_2
+
+    elif val <= 8:
+        roman_val = char_2
+        for count in range(val - 5):
+            roman_val += char_1
+
+    elif val == 9:
+        roman_val = char_1 + char_3
+
+    return roman_val
+
+
 class RomanNumerals:
     @staticmethod
     def to_roman(val):
-        num_dict = {}
-        count = 0
-        for digit in str(val):
-            count += 1
-            num_dict[count] = digit
+        num_list = [item for item in str(val)]
 
+        roman_thousands = ""
+        if len(num_list) == 4:
+            thousands = int(num_list.pop(0))
+            roman_thousands = converter_to_roman(char_1="M", val=thousands)
 
+        roman_hundred = ""
+        if len(num_list) == 3:
+            hundred = int(num_list.pop(0))
+            roman_hundred = converter_to_roman(char_1="C", char_2="D", char_3="M", val=hundred)
 
-        return num_dict
+        roman_tens = ""
+        if len(num_list) == 2:
+            tens = int(num_list.pop(0))
+            roman_tens = converter_to_roman(char_1="X", char_2="L", char_3="C", val=tens)
+
+        roman_ones = ""
+        if len(num_list) == 1:
+            ones = int(num_list.pop(0))
+            roman_ones = converter_to_roman(char_1="I", char_2="V", char_3="X", val=ones)
+
+        return roman_thousands + roman_hundred + roman_tens + roman_ones
 
     @staticmethod
     def from_roman(roman_num):
@@ -57,10 +91,11 @@ class RomanNumerals:
 
 
 if __name__ == "__main__":
-    print(RomanNumerals.to_roman(1000))  # expected output  'M', '1000 should == "M"'
+    print(RomanNumerals.to_roman(1200))  # expected output  'M', '1000 should == "M"'
+    print(RomanNumerals.to_roman(3290))  # expected output  'M', '1000 should == "M"'
     print(RomanNumerals.to_roman(4))  # expected output  'IV', '4 should == "IV"'
     print(RomanNumerals.to_roman(1))  # expected output  'I', '1 should == "I"'
-    print(RomanNumerals.to_roman(1990))  # expected output  'MCMXC', '1990 should == "MCMXC"'
+    print(RomanNumerals.to_roman(1999))  # expected output  'MCMXC', '1990 should == "MCMXC"'
     print(RomanNumerals.to_roman(2008))  # expected output  'MMVIII', '2008 should == "MMVIII"'
     # print(RomanNumerals.from_roman('XXI'))  # expected output 21, 'XXI should == 21'
     # print(RomanNumerals.from_roman('I'))  # expected output 1, 'I should == 1'
