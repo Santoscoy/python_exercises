@@ -38,7 +38,29 @@
 # D	500
 # M	1000
 
-def converter_to_roman(char_1: str, char_2=None, char_3=None, val=None):
+
+ROMAN_COMPOSE_NUM_MAP = {
+    "IV": 4,
+    "IX": 9,
+    "XL": 40,
+    "XC": 90,
+    "CD": 400,
+    "CM": 900,
+}
+
+
+ROMAN_SINGLE_NUM_MAP = {
+    "I": 1,
+    "V": 5,
+    "X": 10,
+    "L": 50,
+    "C": 100,
+    "D": 500,
+    "M": 1000,
+}
+
+
+def converter_to_roman(char_1: str, char_2=None, char_3=None, val=None) -> str:
     roman_val = ""
     if val <= 3:
         for count in range(val):
@@ -56,6 +78,19 @@ def converter_to_roman(char_1: str, char_2=None, char_3=None, val=None):
         roman_val = char_1 + char_3
 
     return roman_val
+
+
+def converter_to_decimal(dict_map: dict, roman_num: str) -> (list, str):
+    roman_string = roman_num
+    num_list = []
+    for key in dict_map.keys():
+        if key in roman_num:
+            count = roman_string.count(key)
+            roman_string = roman_string.replace(key, "")
+            for i in range(count):
+                num_list.append(dict_map[key])
+
+    return num_list, roman_string
 
 
 class RomanNumerals:
@@ -87,18 +122,22 @@ class RomanNumerals:
 
     @staticmethod
     def from_roman(roman_num):
-        ...
+        num_list, roman_num = converter_to_decimal(ROMAN_COMPOSE_NUM_MAP, roman_num)
+        num_list2, roman_num = converter_to_decimal(ROMAN_SINGLE_NUM_MAP, roman_num)
+
+        return sum(num_list + num_list2)
 
 
 if __name__ == "__main__":
-    print(RomanNumerals.to_roman(1200))  # expected output  'M', '1000 should == "M"'
-    print(RomanNumerals.to_roman(3290))  # expected output  'M', '1000 should == "M"'
+    print(RomanNumerals.to_roman(1000))  # expected output  'M', '1000 should == "M"'
+    print(RomanNumerals.to_roman(3290))  # expected output  'MMMCCXC', '3290 should == "MMMCCXC"'
     print(RomanNumerals.to_roman(4))  # expected output  'IV', '4 should == "IV"'
     print(RomanNumerals.to_roman(1))  # expected output  'I', '1 should == "I"'
     print(RomanNumerals.to_roman(1999))  # expected output  'MCMXC', '1990 should == "MCMXC"'
     print(RomanNumerals.to_roman(2008))  # expected output  'MMVIII', '2008 should == "MMVIII"'
-    # print(RomanNumerals.from_roman('XXI'))  # expected output 21, 'XXI should == 21'
-    # print(RomanNumerals.from_roman('I'))  # expected output 1, 'I should == 1'
-    # print(RomanNumerals.from_roman('IV'))  # expected output 4, 'IV should == 4'
-    # print(RomanNumerals.from_roman('MMVIII'))  # expected output 2008, 'MMVIII should == 2008'
-    # print(RomanNumerals.from_roman('MDCLXVI'))  # expected output 1666, 'MDCLXVI should == 1666'
+    print(RomanNumerals.from_roman('XXI'))  # expected output 21, 'XXI should == 21'
+    print(RomanNumerals.from_roman('I'))  # expected output 1, 'I should == 1'
+    print(RomanNumerals.from_roman('IV'))  # expected output 4, 'IV should == 4'
+    print(RomanNumerals.from_roman('MMVIII'))  # expected output 2008, 'MMVIII should == 2008'
+    print(RomanNumerals.from_roman('MDCLXVI'))  # expected output 1666, 'MDCLXVI should == 1666'
+    print(RomanNumerals.from_roman('MMCMLXXV'))  # expected output 1666, 'MDCLXVI should == 2975'
