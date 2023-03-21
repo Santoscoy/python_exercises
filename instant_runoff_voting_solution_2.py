@@ -50,9 +50,6 @@ def runoff(voters):
     return winner
 
 
-# {'dem': 1, 'rep': 1, 'ind': 2}
-# {'a': 1, 'e': 1, 'd': 1, 'c': 1, 'b': 1}
-
 if __name__ == '__main__':
     voters = [["dem", "ind", "rep"],
               ["rep", "ind", "dem"],
