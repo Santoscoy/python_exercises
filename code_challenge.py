@@ -9,7 +9,7 @@ def ConnectFourWinner(strArr):
 
 def generate_board_status(original_board):
     """
-      recives an argument like the folowing:
+      receives an argument like the following:
       [
         "R",
         "(R,R,R,Y,x,x,x)",
@@ -20,7 +20,6 @@ def generate_board_status(original_board):
         "(x,x,x,x,x,R,x)",
       ]
       and determine the current turn, and the board status
-
     """
     turn = original_board.pop(0)
     board_status = []
@@ -32,7 +31,7 @@ def generate_board_status(original_board):
 
 
 def get_available_positions(board_status):
-    """This function is inteded to obtain the available positions in the board"""
+    """This function is intended to obtain the available positions in the board"""
     r = 0
     available_positions = []
     for row in board_status:
@@ -47,7 +46,7 @@ def get_available_positions(board_status):
 
 def get_winner_movement(available_positions, board_status, turn):
     """
-    This function recives the avilable positions as the folowing example:
+    This function receives the available positions as the following example:
     available_positions = [(2,3), (3,4), (3,2)]
     and return the and return an str indicating the winner movement.
     """
@@ -63,13 +62,13 @@ def get_winner_movement(available_positions, board_status, turn):
 
 def check_consecutive(board, row_position, col_position, turn):
     """
-    this function recives the folowing args:
+    this function receives the following args:
       board: list of lists,
       row_position: int,
       col_position: int,
       turn: str
 
-    and returns True is is consecutive else returns False
+    and returns True if is consecutive else returns False
     """
     # horizontal move
     row = board[row_position]
@@ -96,9 +95,9 @@ def check_consecutive(board, row_position, col_position, turn):
 
 def check_sequence(turn, item_list):
     """
-    this function recives the folowing args:
+    this function receives the following args:
       turn: str, ex: "R"
-      item_list: list of str's, ex: ["x", "R", "x", "R", "R", "x", "x"]
+      item_list: list of strings, ex: ["x", "R", "x", "R", "R", "x", "x"]
     and returns True if the sequence is correct else False
     """
     count = 0
@@ -122,12 +121,12 @@ def check_sequence(turn, item_list):
 
 def build_diagonal(board, turn, direction=None):
     """
-    This functions recives the folowing args:
+    This functions receives the following args:
       board: list of list,
       turn: str,
       direction
 
-    and return a list with str's
+    and return a list with strings
     """
     diag = []
     col_index = None
@@ -154,7 +153,7 @@ def build_diagonal(board, turn, direction=None):
     return diag
 
 
-# Aditional Test
+# Additional Test
 print(ConnectFourWinner([
   "Y",
   "(Y,Y,Y,x,x,x,x)",
