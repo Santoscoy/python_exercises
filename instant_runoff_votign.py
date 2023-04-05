@@ -20,8 +20,6 @@ dict = {
     1: {'ind': 6, 'dem': 3, 'rep': 3},  # 2 ind 12 dem 6 rep 6
     2: {'rep': 6, 'dem': 6}}            # 1 ind  0 dem 6 rep 6
 
-                                        #   ind 30 dem 21 rep 21
-
 
 def runoff(voters):
     votes_matrix = {}
